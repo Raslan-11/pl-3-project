@@ -1,0 +1,10 @@
+let generateQuizResult userInfo userAnswers =
+    let score = calculateScore userAnswers
+    let answersMessage =
+        questions
+        |> Map.fold (fun acc index question -> 
+            let userAnswer = userAnswers |> Map.tryFind index |> Option.defaultValue "No Answer"
+            let correctAnswer = question.CorrectAnswer
+            acc + sprintf "Q%d: %s\nYour Answer: %s\nCorrect Answer: %s\n\n" (index + 1) question.Text userAnswer correctAnswer
+        ) ""
+    sprintf "Name: %s\nID: %s\nYour Final Score: %d\n\n%s" userInfo.Name userInfo.ID score answersMessage
